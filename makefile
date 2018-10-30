@@ -1,5 +1,5 @@
 all: zformat zinspect zfilez zmkdir zrmdir
-	gcc project3.c -o
+
 erase:
 	$(shell ls -1 | grep -Ev '^(.*\.[hc]|README\.?[[:alnum:]]*|makefile)$$' -|xargs rm -r)
 clean:erase all
