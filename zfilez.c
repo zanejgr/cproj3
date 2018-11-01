@@ -1,2 +1,6 @@
 #include<stdio.h>
-int main(){}
+int main(){
+	puts("not yet implemented");
+	
+}
+

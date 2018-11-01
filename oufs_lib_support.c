@@ -10,6 +10,14 @@
  * @param cwd String buffer in which to place the OUFS current working directory.
  * @param disk_name String buffer containing the file name of the virtual disk.
  */
+int oufs_find_open_bit(unsigned char value){
+	puts("not yet implemented");
+	return 1;
+}
+int oufs_mkdir(char*cwd,char*path){
+	puts("not yet implemented");
+	return 1;
+}
 void oufs_get_environment(char *cwd, char *disk_name)
 {
   // Current working directory for the OUFS
