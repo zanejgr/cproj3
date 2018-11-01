@@ -3,7 +3,7 @@
 ########################
 # testcases
 *.txt*
-
+*.swp*
 ###########################
 #END CUSTOM GITIGNORE######
 #BEGIN AUTOMATIC GITIGNORE#
