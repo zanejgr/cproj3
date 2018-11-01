@@ -1,8 +1,8 @@
-all: zformat zinspect zfilez zmkdir zrmdir
+all: zformat zfilez zmkdir zrmdir zinspect 
 
 erase:
 	$(shell ls -1 | grep -Ev '^(.*\.[hc]|README\.?[[:alnum:]]*|makefile)$$' -|xargs rm -r)
-clean:erase all
+clean: erase all
 
 zformat: 
 	gcc zformat.c -o zformat

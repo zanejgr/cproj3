@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-
+#include "oufs.h"
 #include "oufs_lib.h"
 
 int main(int argc, char** argv) {
