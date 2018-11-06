@@ -3,7 +3,12 @@
 ########################
 # testcases
 *.txt*
+#vim swap files
 *.swp*
+# Compressed folders/archives
+*.tar*
+*.gz
+
 ###########################
 #END CUSTOM GITIGNORE######
 #BEGIN AUTOMATIC GITIGNORE#
