@@ -7,6 +7,11 @@ Project 3
 Sources(to do)
 
 Help(to do)
-
+zinspect: syntax: ./zinspect [-master|[-inode|-inodee|-dblock|raw [block number]]
+	master prints the master record
+	inode prints the inode number, followed by the type, the contents of the blocks of the inode, and finally the total size of the inode
+	inodee is like inode plus a number of references to the inode
+	dblock is like inode but for data blocks
+	raw is like inodee for raw data
 
 process(to do)
