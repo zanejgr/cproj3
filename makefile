@@ -1,4 +1,4 @@
-all: zmkdir zrmdir zformat zfilez zinspect 
+all: zmkdir zrmdir zformat zinspect zfilez 
 
 erase:
 	$(shell ls -1 | grep -Ev '^(.*\.[hc]|README\.?[[:alnum:]]*|makefile)$$' -|xargs rm -r)
