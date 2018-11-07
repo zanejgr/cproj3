@@ -12,10 +12,12 @@ int main(int argc, char** argv) {
     if(strncmp(argv[1], "-master", 8) == 0) {
       // Master record
       BLOCK block;
+      // format: ./zinspect -master
       if(vdisk_read_block(0, &block) != 0) {
 	fprintf(stderr, "Error reading master block\n");
       }else{
 	// Block read: report state
+	
 	printf("Inode table:\n");
 	for(int i = 0; i < INODES_PER_BLOCK *  N_INODE_BLOCKS / 8; ++i) {
 	  printf("%02x\n", block.master.inode_allocated_flag[i]);
@@ -32,7 +34,8 @@ int main(int argc, char** argv) {
 
   }else if(argc == 3) {
     if(strncmp(argv[1], "-inode", 7) == 0) {
-      // Inode query
+      //format: ./zinspect -inode [inode number]
+	    // Inode query
       int index;
       if(sscanf(argv[2], "%d", &index) == 1){
 	if(index < 0 || index >= N_INODES) {
@@ -54,6 +57,7 @@ int main(int argc, char** argv) {
       }
     }else if(strncmp(argv[1], "-inodee", 8) == 0) {
       // Extended Inode query
+      // format: ./zinspect -inodee [inode number]
       int index;
       if(sscanf(argv[2], "%d", &index) == 1){
 	if(index < 0 || index >= N_INODES) {
@@ -76,6 +80,7 @@ int main(int argc, char** argv) {
       }
     }else if(strncmp(argv[1], "-dblock", 8) == 0) {
       // Inspect directory block
+      // format: ./zinspect -dblock [block number] 
       int index;
       if(sscanf(argv[2], "%d", &index) == 1){
 	if(index < 0 || index >= N_BLOCKS_IN_DISK) {
@@ -94,6 +99,7 @@ int main(int argc, char** argv) {
       }
     }else if(strncmp(argv[1], "-raw", 4) == 0) {
       // Inspect raw block
+      // format: ./zinspect -raw [block number]
       int index;
       if(sscanf(argv[2], "%d", &index) == 1){
 	if(index < 0 || index >= N_BLOCKS_IN_DISK) {
