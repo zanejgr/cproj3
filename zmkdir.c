@@ -7,8 +7,7 @@ CS3113
 
 #include <stdio.h>
 #include <string.h>
-#include "vdisk.h"
-#include "oufs.h"
+
 #include "oufs_lib.h"
 
 int main(int argc, char** argv) {
@@ -23,7 +22,10 @@ int main(int argc, char** argv) {
     vdisk_disk_open(disk_name);
 
     // Make the specified directory
-    oufs_mkdir(cwd, argv[1]);
+    int ret = oufs_mkdir(cwd, argv[1]);
+    if(ret != 0) {
+      fprintf(stderr, "Error (%d)\n", ret);
+    }
 
     // Clean up
     vdisk_disk_close();
