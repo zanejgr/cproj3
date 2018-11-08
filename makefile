@@ -1,8 +1,18 @@
-all: zmkdir zrmdir zformat zinspect zfilez 
+all: rebug zmkdir zrmdir zformat zinspect zfilez 
 
 erase:
 	$(shell ls -1 | grep -Ev '^(.*\.[hc]|README\.?[[:alnum:]]*|makefile)$$' -|xargs rm -r)
+
 clean: erase all
+
+secret: debug zmkdir zrmdir zformat zinspect zfilez
+
+
+debug: 
+	$(shell sed -i 's/define debug 0/define debug 1/' *.c *.h)
+
+rebug: 
+	$(shell sed -i 's/define debug 1/define debug 0/' *.c *.h)
 
 zformat: 
 	gcc zformat.c -o zformat
