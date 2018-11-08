@@ -1,4 +1,4 @@
-all: zmkdir zformat zfilez zinspect 
+all: zmkdir zrmdir zformat zinspect zfilez 
 
 erase:
 	$(shell ls -1 | grep -Ev '^(.*\.[hc]|README\.?[[:alnum:]]*|makefile)$$' -|xargs rm -r)
@@ -12,3 +12,5 @@ zfilez:
 	gcc zfilez.c -o zfilez
 zmkdir: 
 	gcc zmkdir.c oufs_lib_support.c vdisk.c -o zmkdir
+zrmdir:
+	gcc zmkdir.c oufs_lib_support.c vdisk.c -o zrmdir

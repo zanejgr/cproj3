@@ -10,14 +10,7 @@
  * @param cwd String buffer in which to place the OUFS current working directory.
  * @param disk_name String buffer containing the file name of the virtual disk.
  */
-int oufs_find_open_bit(unsigned char value){
-	puts("not yet implemented");
-	return 1;
-}
-int oufs_mkdir(char*cwd,char*path){
-	puts("not yet implemented");
-	return 1;
-}
+
 void oufs_get_environment(char *cwd, char *disk_name)
 {
   // Current working directory for the OUFS
@@ -180,3 +173,65 @@ int oufs_read_inode_by_reference(INODE_REFERENCE i, INODE *inode)
   // Error case
   return(-1);
 }
+
+/************************************************************
+ * End professor provided code
+ * Begin Zane provided code
+ **********************************************************/
+
+
+/**
+ *  Given an inode reference, write the inode to the virtual disk.
+ *
+ *  @param i Inode reference (index into the inode list)
+ *  @param inode Pointer to an inode memory structure.  This structure will be
+ *                filled in before return)
+ *  @return 0 = successfully loaded the inode
+ *         -1 = an error has occurred
+ *
+ */
+int oufs_write_inode_by_reference(INODE_REFERENCE i, INODE *inode)
+{
+  if(debug)
+    fprintf(stderr, "Fetching inode %d\n", i);
+
+  // Find the address of the inode block and the inode within the block
+  BLOCK_REFERENCE block = i / INODES_PER_BLOCK + 1;
+  int element = (i % INODES_PER_BLOCK);
+
+  BLOCK b;
+  if(vdisk_write_block(block, &b) == 0) {
+    // Successfully loaded the block: copy just this inode
+    b.inodes.inode[element] = *inode;
+    return(0);
+  }
+  // Error case
+  return(-1);
+}
+
+
+int oufs_find_open_bit(unsigned char value){
+	puts("not yet implemented");
+	return 1;
+}
+int oufs_mkdir(char*cwd,char*path){
+	puts("not yet implemented");
+	return 1;
+}
+int oufs_rmdir(char*cwd,char*path){
+	puts("not yet implemented");
+	return 1;
+}
+int oufs_format_disk(char *virtual_disk_name){
+	puts("not yet implemented");
+	return 1;
+}
+int oufs_list(char* cwd, char *path){
+	puts("not yet implemented");
+	return 1;
+}
+int oufs_find_file(char *cwd,char *path, INODE_REFERENCE *PARENT, INODE_REFERENCE *child, char *local_name){
+     puts("not yet implemented");
+return 1;
+}
+
