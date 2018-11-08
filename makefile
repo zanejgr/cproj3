@@ -9,10 +9,10 @@ secret: debug zmkdir zrmdir zformat zinspect zfilez
 
 
 debug: 
-	$(shell sed -i.bak 's/define debug 0/define debug 1/' *.c *.h)
+	$(shell sed -i 's/define debug 0/define debug 1/' *.c *.h)
 
 rebug: 
-	$(shell sed -i.bak 's/define debug 1/define debug 0/' *.c *.h)
+	$(shell sed -i 's/define debug 1/define debug 0/' *.c *.h)
 
 zformat: 
 	gcc zformat.c -o zformat
