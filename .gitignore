@@ -4,7 +4,10 @@
 # testcases
 *.txt*
 #vim swap files
+#
 *.swp*
+#sed results
+*.bak
 # Compressed folders/archives
 *.tar*
 *.gz

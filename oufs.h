@@ -12,7 +12,6 @@
 #ifndef FILE_STRUCTS_H
 #define FILE_STRUCTS_H
 
-#include "faggutil.h"
 #include <string.h>
 #include <limits.h>
 #include "vdisk.h"
