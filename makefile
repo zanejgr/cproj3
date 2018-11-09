@@ -15,7 +15,7 @@ rebug:
 	$(shell sed -i 's/define debug 1/define debug 0/' *.c *.h)
 
 zformat: 
-	gcc zformat.c -o zformat
+	gcc zformat.c oufs_lib_support.c vdisk.c -o zformat
 zinspect: 
 	gcc zinspect.c oufs_lib_support.c vdisk.c -o zinspect
 zfilez: 
