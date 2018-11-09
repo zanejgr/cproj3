@@ -23,4 +23,10 @@ int main(int argc,char**argv){
   	bzero(blockbuf->master.inode_allocated_flag,sizeof(blockbuf->master.inode_allocated_flag));
 	bzero(blockbuf->master.block_allocated_flag,sizeof(blockbuf->master.block_allocated_flag));
 	vdisk_write_block(MASTER_BLOCK_REFERENCE,blockbuf);
+
+
+	//save changes
+	vdisk_disk_close();
+
 }
+
