@@ -13,25 +13,25 @@
 
 void oufs_get_environment(char *cwd, char *disk_name)
 {
-  // Current working directory for the OUFS
-  char *str = getenv("ZPWD");
-  if(str == NULL) {
-    // Provide default
-    strcpy(cwd, "/");
-  }else{
-    // Exists
-    strncpy(cwd, str, MAX_PATH_LENGTH-1);
-  }
+	// Current working directory for the OUFS
+	char *str = getenv("ZPWD");
+	if(str == NULL) {
+		// Provide default
+		strcpy(cwd, "/");
+	}else{
+		// Exists
+		strncpy(cwd, str, MAX_PATH_LENGTH-1);
+	}
 
-  // Virtual disk location
-  str = getenv("ZDISK");
-  if(str == NULL) {
-    // Default
-    strcpy(disk_name, "vdisk1");
-  }else{
-    // Exists: copy
-    strncpy(disk_name, str, MAX_PATH_LENGTH-1);
-  }
+	// Virtual disk location
+	str = getenv("ZDISK");
+	if(str == NULL) {
+		// Default
+		strcpy(disk_name, "vdisk1");
+	}else{
+		// Exists: copy
+		strncpy(disk_name, str, MAX_PATH_LENGTH-1);
+	}
 
 }
 
@@ -42,8 +42,8 @@ void oufs_get_environment(char *cwd, char *disk_name)
  */
 void oufs_clean_directory_entry(DIRECTORY_ENTRY *entry) 
 {
-  entry->name[0] = 0;  // No name
-  entry->inode_reference = UNALLOCATED_INODE;
+	entry->name[0] = 0;  // No name
+	entry->inode_reference = UNALLOCATED_INODE;
 }
 
 /**
@@ -57,31 +57,31 @@ void oufs_clean_directory_entry(DIRECTORY_ENTRY *entry)
 
 void oufs_clean_directory_block(INODE_REFERENCE self, INODE_REFERENCE parent, BLOCK *block)
 {
-  // Debugging output
-  if(debug)
-    fprintf(stderr, "New clean directory: self=%d, parent=%d\n", self, parent);
+	// Debugging output
+	if(debug)
+		fprintf(stderr, "New clean directory: self=%d, parent=%d\n", self, parent);
 
-  // Create an empty directory entry
-  DIRECTORY_ENTRY entry;
-  oufs_clean_directory_entry(&entry);
+	// Create an empty directory entry
+	DIRECTORY_ENTRY entry;
+	oufs_clean_directory_entry(&entry);
 
-  // Copy empty directory entries across the entire directory list
-  for(int i = 0; i < DIRECTORY_ENTRIES_PER_BLOCK; ++i) {
-    block->directory.entry[i] = entry;
-  }
+	// Copy empty directory entries across the entire directory list
+	for(int i = 0; i < DIRECTORY_ENTRIES_PER_BLOCK; ++i) {
+		block->directory.entry[i] = entry;
+	}
 
-  // Now we will set up the two fixed directory entries
+	// Now we will set up the two fixed directory entries
 
-  // Self
-  strncpy(entry.name, ".", 2);
-  entry.inode_reference = self;
-  block->directory.entry[0] = entry;
+	// Self
+	strncpy(entry.name, ".", 2);
+	entry.inode_reference = self;
+	block->directory.entry[0] = entry;
 
-  // Parent (same as self
-  strncpy(entry.name, "..", 3);
-  entry.inode_reference = parent;
-  block->directory.entry[1] = entry;
-  
+	// Parent (same as self
+	strncpy(entry.name, "..", 3);
+	entry.inode_reference = parent;
+	block->directory.entry[1] = entry;
+
 }
 
 /**
@@ -95,53 +95,53 @@ void oufs_clean_directory_block(INODE_REFERENCE self, INODE_REFERENCE parent, BL
  */
 BLOCK_REFERENCE oufs_allocate_new_block()
 {
-  BLOCK block;
-  // Read the master block
-  vdisk_read_block(MASTER_BLOCK_REFERENCE, &block);
+	BLOCK block;
+	// Read the master block
+	vdisk_read_block(MASTER_BLOCK_REFERENCE, &block);
 
-  // Scan for an available block
-  int block_byte;
-  int flag;
+	// Scan for an available block
+	int block_byte;
+	int flag;
 
-  // Loop over each byte in the allocation table.
-  for(block_byte = 0, flag = 1; flag && block_byte < N_BLOCKS_IN_DISK / 8; ++block_byte) {
-    if(block.master.block_allocated_flag[block_byte] != 0xff) {
-      // Found a byte that has an opening: stop scanning
-      flag = 0;
-      break;
-    };
-  };
-  // Did we find a candidate byte in the table?
-  if(flag == 1) {
-    // No
-    if(debug)
-      fprintf(stderr, "No blocks\n");
-    return(UNALLOCATED_BLOCK);
-  }
+	// Loop over each byte in the allocation table.
+	for(block_byte = 0, flag = 1; flag && block_byte < N_BLOCKS_IN_DISK / 8; ++block_byte) {
+		if(block.master.block_allocated_flag[block_byte] != 0xff) {
+			// Found a byte that has an opening: stop scanning
+			flag = 0;
+			break;
+		};
+	};
+	// Did we find a candidate byte in the table?
+	if(flag == 1) {
+		// No
+		if(debug)
+			fprintf(stderr, "No blocks\n");
+		return(UNALLOCATED_BLOCK);
+	}
 
-  // Found an available data block 
+	// Found an available data block 
 
-  // Set the block allocated bit
-  // Find the FIRST bit in the byte that is 0 (we scan in bit order: 0 ... 7)
-  int block_bit = oufs_find_open_bit(block.master.block_allocated_flag[block_byte]);
+	// Set the block allocated bit
+	// Find the FIRST bit in the byte that is 0 (we scan in bit order: 0 ... 7)
+	int block_bit = oufs_find_open_bit(block.master.block_allocated_flag[block_byte]);
 
-  // Now set the bit in the allocation table
-  block.master.block_allocated_flag[block_byte] |= (1 << block_bit);
+	// Now set the bit in the allocation table
+	block.master.block_allocated_flag[block_byte] |= (1 << block_bit);
 
-  // Write out the updated master block
-  vdisk_write_block(MASTER_BLOCK_REFERENCE, &block);
+	// Write out the updated master block
+	vdisk_write_block(MASTER_BLOCK_REFERENCE, &block);
 
-  if(debug)
-    fprintf(stderr, "Allocating block=%d (%d)\n", block_byte, block_bit);
+	if(debug)
+		fprintf(stderr, "Allocating block=%d (%d)\n", block_byte, block_bit);
 
-  // Compute the block index
-  BLOCK_REFERENCE block_reference = (block_byte << 3) + block_bit;
+	// Compute the block index
+	BLOCK_REFERENCE block_reference = (block_byte << 3) + block_bit;
 
-  if(debug)
-    fprintf(stderr, "Allocating block=%d\n", block_reference);
-  
-  // Done
-  return(block_reference);
+	if(debug)
+		fprintf(stderr, "Allocating block=%d\n", block_reference);
+
+	// Done
+	return(block_reference);
 }
 
 
@@ -157,21 +157,21 @@ BLOCK_REFERENCE oufs_allocate_new_block()
  */
 int oufs_read_inode_by_reference(INODE_REFERENCE i, INODE *inode)
 {
-  if(debug)
-    fprintf(stderr, "Fetching inode %d\n", i);
+	if(debug)
+		fprintf(stderr, "Fetching inode %d\n", i);
 
-  // Find the address of the inode block and the inode within the block
-  BLOCK_REFERENCE block = i / INODES_PER_BLOCK + 1;
-  int element = (i % INODES_PER_BLOCK);
+	// Find the address of the inode block and the inode within the block
+	BLOCK_REFERENCE block = i / INODES_PER_BLOCK + 1;
+	int element = (i % INODES_PER_BLOCK);
 
-  BLOCK b;
-  if(vdisk_read_block(block, &b) == 0) {
-    // Successfully loaded the block: copy just this inode
-    *inode = b.inodes.inode[element];
-    return(0);
-  }
-  // Error case
-  return(-1);
+	BLOCK b;
+	if(vdisk_read_block(block, &b) == 0) {
+		// Successfully loaded the block: copy just this inode
+		*inode = b.inodes.inode[element];
+		return(0);
+	}
+	// Error case
+	return(-1);
 }
 
 /************************************************************
@@ -192,26 +192,26 @@ int oufs_read_inode_by_reference(INODE_REFERENCE i, INODE *inode)
  */
 int oufs_write_inode_by_reference(INODE_REFERENCE i, INODE *inode)
 {
-  if(debug)
-    fprintf(stderr, "Fetching inode %d\n", i);
+	if(debug)
+		fprintf(stderr, "Writing inode %d\n", i);
 
-  // Find the address of the inode block and the inode within the block
-  BLOCK_REFERENCE block = i / INODES_PER_BLOCK + 1;
-  int element = (i % INODES_PER_BLOCK);
+	// Find the address of the inode block and the inode within the block
+	BLOCK_REFERENCE block = i / INODES_PER_BLOCK + 1;
+	int element = (i % INODES_PER_BLOCK);
 
-  BLOCK b;
-  if(vdisk_write_block(block, &b) == 0) {
-    // Successfully loaded the block: copy just this inode
-    b.inodes.inode[element] = *inode;
-    return(0);
-  }
-  // Error case
-  return(-1);
+	BLOCK b;
+	if(vdisk_write_block(block, &b) == 0) {
+		// Successfully loaded the block: copy just this inode
+		b.inodes.inode[element] = *inode;
+		return(0);
+	}
+	// Error case
+	return(-1);
 }
 
 
 int oufs_find_open_bit(unsigned char value){
-	puts("not yet implemented");
+puts("not yet implemented");
 	return 1;
 }
 int oufs_mkdir(char*cwd,char*path){
@@ -222,16 +222,12 @@ int oufs_rmdir(char*cwd,char*path){
 	puts("not yet implemented");
 	return 1;
 }
-int oufs_format_disk(char *virtual_disk_name){
-	puts("not yet implemented");
-	return 1;
-}
 int oufs_list(char* cwd, char *path){
 	puts("not yet implemented");
 	return 1;
 }
 int oufs_find_file(char *cwd,char *path, INODE_REFERENCE *PARENT, INODE_REFERENCE *child, char *local_name){
-     puts("not yet implemented");
-return 1;
+	puts("not yet implemented");
+	return 1;
 }
 
