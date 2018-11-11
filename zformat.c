@@ -4,7 +4,7 @@
 #include "oufs.h"
 #include <stdlib.h>
 #include <strings.h>
-#define debug 0
+#define debug 1
 int main(int argc,char**argv){
 	// Get the key environment variables
 	char cwd[MAX_PATH_LENGTH];

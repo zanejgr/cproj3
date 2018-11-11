@@ -1,0 +1,232 @@
+==23085== Memcheck, a memory error detector
+==23085== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==23085== Using Valgrind-3.13.0 and LibVEX; rerun with -h for copyright info
+==23085== Command: ./zformat
+==23085== 
+##Writing block 0
+==23085== Syscall param write(buf) points to unaddressable byte(s)
+==23085==    at 0x4F4C154: write (write.c:27)
+==23085==    by 0x1096AE: vdisk_write_block (in /home/zanej/cproj3/zformat)
+==23085==    by 0x108B87: main (in /home/zanej/cproj3/zformat)
+==23085==  Address 0x522d057 is 0 bytes after a block of size 23 alloc'd
+==23085==    at 0x4C2FB0F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==23085==    by 0x108B0C: main (in /home/zanej/cproj3/zformat)
+==23085== 
+==23085== Invalid write of size 8
+==23085==    at 0x4EF7894: __memset_sse2_unaligned (memset-vec-unaligned-erms.S:116)
+==23085==    by 0x108C04: main (in /home/zanej/cproj3/zformat)
+==23085==  Address 0x522e230 is 8 bytes after a block of size 8 alloc'd
+==23085==    at 0x4C2FB0F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==23085==    by 0x108BD1: main (in /home/zanej/cproj3/zformat)
+==23085== 
+==23085== Invalid write of size 8
+==23085==    at 0x4EF789A: __memset_sse2_unaligned (memset-vec-unaligned-erms.S:117)
+==23085==    by 0x108C04: main (in /home/zanej/cproj3/zformat)
+==23085==  Address 0x522e222 is 2 bytes inside a block of size 8 alloc'd
+==23085==    at 0x4C2FB0F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==23085==    by 0x108BD1: main (in /home/zanej/cproj3/zformat)
+==23085== 
+==23085== Invalid write of size 2
+==23085==    at 0x108C42: main (in /home/zanej/cproj3/zformat)
+==23085==  Address 0x522e228 is 0 bytes after a block of size 8 alloc'd
+==23085==    at 0x4C2FB0F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==23085==    by 0x108BD1: main (in /home/zanej/cproj3/zformat)
+==23085== 
+==23085== Invalid write of size 4
+==23085==    at 0x108C6D: main (in /home/zanej/cproj3/zformat)
+==23085==  Address 0x522e240 is 16 bytes after a block of size 16 in arena "client"
+==23085== 
+==23085== Invalid read of size 8
+==23085==    at 0x108C85: main (in /home/zanej/cproj3/zformat)
+==23085==  Address 0x522e228 is 0 bytes after a block of size 8 alloc'd
+==23085==    at 0x4C2FB0F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==23085==    by 0x108BD1: main (in /home/zanej/cproj3/zformat)
+==23085== 
+==23085== Invalid read of size 8
+==23085==    at 0x108C90: main (in /home/zanej/cproj3/zformat)
+==23085==  Address 0x522e230 is 8 bytes after a block of size 8 alloc'd
+==23085==    at 0x4C2FB0F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==23085==    by 0x108BD1: main (in /home/zanej/cproj3/zformat)
+==23085== 
+==23085== Invalid read of size 8
+==23085==    at 0x108C94: main (in /home/zanej/cproj3/zformat)
+==23085==  Address 0x522e238 is 16 bytes after a block of size 8 alloc'd
+==23085==    at 0x4C2FB0F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==23085==    by 0x108BD1: main (in /home/zanej/cproj3/zformat)
+==23085== 
+==23085== Invalid read of size 4
+==23085==    at 0x108CA0: main (in /home/zanej/cproj3/zformat)
+==23085==  Address 0x522e240 is 16 bytes after a block of size 16 in arena "client"
+==23085== 
+##Writing block 1
+==23085== Syscall param write(buf) points to unaddressable byte(s)
+==23085==    at 0x4F4C154: write (write.c:27)
+==23085==    by 0x1096AE: vdisk_write_block (in /home/zanej/cproj3/zformat)
+==23085==    by 0x108CCB: main (in /home/zanej/cproj3/zformat)
+==23085==  Address 0x522e1dc is 0 bytes after a block of size 252 alloc'd
+==23085==    at 0x4C2FB0F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==23085==    by 0x108BAC: main (in /home/zanej/cproj3/zformat)
+==23085== 
+##Writing block 2
+##Writing block 3
+##Writing block 4
+##Writing block 5
+##Writing block 6
+##Writing block 7
+##Writing block 8
+##Writing block 9
+##Writing block 10
+##Writing block 11
+##Writing block 12
+##Writing block 13
+##Writing block 14
+##Writing block 15
+##Writing block 16
+##Writing block 17
+##Writing block 18
+##Writing block 19
+##Writing block 20
+##Writing block 21
+##Writing block 22
+##Writing block 23
+##Writing block 24
+##Writing block 25
+##Writing block 26
+##Writing block 27
+##Writing block 28
+##Writing block 29
+##Writing block 30
+##Writing block 31
+##Writing block 32
+##Writing block 33
+##Writing block 34
+##Writing block 35
+##Writing block 36
+##Writing block 37
+##Writing block 38
+##Writing block 39
+##Writing block 40
+##Writing block 41
+##Writing block 42
+##Writing block 43
+##Writing block 44
+##Writing block 45
+##Writing block 46
+##Writing block 47
+##Writing block 48
+##Writing block 49
+##Writing block 50
+##Writing block 51
+##Writing block 52
+##Writing block 53
+##Writing block 54
+##Writing block 55
+##Writing block 56
+##Writing block 57
+##Writing block 58
+##Writing block 59
+##Writing block 60
+##Writing block 61
+##Writing block 62
+##Writing block 63
+##Writing block 64
+##Writing block 65
+##Writing block 66
+##Writing block 67
+##Writing block 68
+##Writing block 69
+##Writing block 70
+##Writing block 71
+##Writing block 72
+##Writing block 73
+##Writing block 74
+##Writing block 75
+##Writing block 76
+##Writing block 77
+##Writing block 78
+##Writing block 79
+##Writing block 80
+##Writing block 81
+##Writing block 82
+##Writing block 83
+##Writing block 84
+##Writing block 85
+##Writing block 86
+##Writing block 87
+##Writing block 88
+##Writing block 89
+##Writing block 90
+##Writing block 91
+##Writing block 92
+##Writing block 93
+##Writing block 94
+##Writing block 95
+##Writing block 96
+##Writing block 97
+##Writing block 98
+##Writing block 99
+##Writing block 100
+##Writing block 101
+##Writing block 102
+##Writing block 103
+##Writing block 104
+##Writing block 105
+##Writing block 106
+##Writing block 107
+##Writing block 108
+##Writing block 109
+##Writing block 110
+##Writing block 111
+##Writing block 112
+##Writing block 113
+##Writing block 114
+##Writing block 115
+##Writing block 116
+##Writing block 117
+##Writing block 118
+##Writing block 119
+##Writing block 120
+##Writing block 121
+##Writing block 122
+##Writing block 123
+##Writing block 124
+##Writing block 125
+##Writing block 126
+##Writing block 127
+##Reading block 9
+==23085== Syscall param read(buf) points to unaddressable byte(s)
+==23085==    at 0x4F4C081: read (read.c:27)
+==23085==    by 0x10957F: vdisk_read_block (in /home/zanej/cproj3/zformat)
+==23085==    by 0x108CEF: main (in /home/zanej/cproj3/zformat)
+==23085==  Address 0x522e1dc is 0 bytes after a block of size 252 alloc'd
+==23085==    at 0x4C2FB0F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==23085==    by 0x108BAC: main (in /home/zanej/cproj3/zformat)
+==23085== 
+New clean directory: self=1, parent=1
+##Writing block 9
+==23085== Syscall param write(buf) points to uninitialised byte(s)
+==23085==    at 0x4F4C154: write (write.c:27)
+==23085==    by 0x1096AE: vdisk_write_block (in /home/zanej/cproj3/zformat)
+==23085==    by 0x108D1C: main (in /home/zanej/cproj3/zformat)
+==23085==  Address 0x522e0e2 is 2 bytes inside a block of size 252 alloc'd
+==23085==    at 0x4C2FB0F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==23085==    by 0x108BAC: main (in /home/zanej/cproj3/zformat)
+==23085== 
+wrote master
+made inode buffer!
+==23085== 
+==23085== HEAP SUMMARY:
+==23085==     in use at exit: 260 bytes in 2 blocks
+==23085==   total heap usage: 4 allocs, 2 frees, 4,379 bytes allocated
+==23085== 
+==23085== LEAK SUMMARY:
+==23085==    definitely lost: 260 bytes in 2 blocks
+==23085==    indirectly lost: 0 bytes in 0 blocks
+==23085==      possibly lost: 0 bytes in 0 blocks
+==23085==    still reachable: 0 bytes in 0 blocks
+==23085==         suppressed: 0 bytes in 0 blocks
+==23085== Rerun with --leak-check=full to see details of leaked memory
+==23085== 
+==23085== For counts of detected and suppressed errors, rerun with: -v
+==23085== Use --track-origins=yes to see where uninitialised values come from
+==23085== ERROR SUMMARY: 163 errors from 12 contexts (suppressed: 0 from 0)
