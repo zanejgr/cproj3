@@ -1,0 +1,28 @@
+#/bin/bash
+
+# Set NEWDIR to the directory where your executables are
+# NEWDIR=.
+NEWDIR=/projects/3
+#NEWDIR=../code
+
+export PATH=$PATH:$NEWDIR
+export ZDISK2=vdisk1
+
+zformat 
+echo "#######" 
+zmkdir foo
+zfilez
+echo "#######" 
+export ZPWD="/foo"
+zfilez
+echo "#######" 
+zmkdir bar
+zfilez
+echo "#######" 
+export ZPWD="/"
+zfilez
+echo "#######" 
+zfilez foo
+echo "#######" 
+rm -f $ZDISK2
+echo "#######" 

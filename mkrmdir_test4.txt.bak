@@ -1,0 +1,48 @@
+#/bin/bash
+
+# Set NEWDIR to the directory where your executables are
+# NEWDIR=.
+NEWDIR=/projects/3
+#NEWDIR=../code
+
+export PATH=$PATH:$NEWDIR
+
+zformat 
+echo "#######" 
+zmkdir foo
+zmkdir bar
+zfilez
+echo "#######" 
+zrmdir foo
+zmkdir bar/foobar
+zmkdir bar/foobar/foobaz
+zfilez
+echo "#######" 
+zinspect -master 
+echo "#######" 
+zinspect -dblock 9
+echo "#######" 
+zmkdir baz
+zfilez
+echo "#######" 
+zinspect -master 
+echo "#######" 
+zinspect -dblock 9
+echo "#######" 
+zinspect -dblock 10
+echo "#######" 
+zinspect -dblock 11
+echo "#######" 
+zinspect -dblock 12
+echo "#######" 
+zinspect -inode 0
+echo "#######" 
+zinspect -inode 1
+echo "#######" 
+zinspect -inode 2
+echo "#######" 
+zinspect -inode 3
+echo "#######" 
+zinspect -inode 4
+echo "#######" 
+
