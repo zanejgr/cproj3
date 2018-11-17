@@ -1,6 +1,6 @@
 #ifndef OUFS_LIB
 #define OUFS_LIB
-#include "faggutil.h"
+
 #include "oufs.h"
 
 #define MAX_PATH_LENGTH 200

@@ -1,6 +1,6 @@
 #ifndef VDISK_H
 
-#include "faggutil.h"
+
 #include <sys/types.h>
 #include <unistd.h>
 #include <sys/stat.h>
