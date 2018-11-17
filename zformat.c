@@ -2,9 +2,10 @@
 #include <string.h>
 #include "oufs_lib.h"
 #include "oufs.h"
+#include "oufs_goodies.h"
 #include <stdlib.h>
 #include <strings.h>
-#define debug 1
+#define debug 0
 int main(int argc,char**argv){
 	// Get the key environment variables
 	char cwd[MAX_PATH_LENGTH];
@@ -19,12 +20,13 @@ int main(int argc,char**argv){
 
 	//set 0 to master block
 	//zero out all contents, and initialize values for the root directory
-	BLOCK* blockbuf = malloc(sizeof(blockbuf->master));	
+	BLOCK* blockbuf = malloc(sizeof *blockbuf);	
 	if(debug){
 	       	puts("mallocing ");
-		printf("%ld",sizeof(blockbuf->master));
+		printf("%ld",sizeof(* blockbuf));
 		puts(" bytes in blockbuf\n");
 	}
+	bzero(blockbuf,sizeof(*blockbuf));
 	bzero(blockbuf->master.inode_allocated_flag,sizeof(blockbuf->master.inode_allocated_flag));
 	bzero(blockbuf->master.block_allocated_flag,sizeof(blockbuf->master.block_allocated_flag));
 	blockbuf->master.block_allocated_flag[0]=0xff;
@@ -38,11 +40,11 @@ int main(int argc,char**argv){
 	free(blockbuf);
 	if(debug){
 		puts("mallocing ");
-		printf("%ld",sizeof(blockbuf->inodes));
+		printf("%ld",sizeof(*blockbuf));
 		puts(" bytes for blockbuf\n");
 	}
-	blockbuf = malloc(sizeof(blockbuf->inodes));
-	bzero(blockbuf,sizeof(blockbuf->inodes));
+	blockbuf = malloc(sizeof(*blockbuf));
+	bzero(blockbuf,sizeof(*blockbuf));
 	//inode 0 value
 	INODE* inode = malloc(sizeof(inode));
 	bzero(inode->data,sizeof(inode->data));
@@ -65,12 +67,13 @@ int main(int argc,char**argv){
 		vdisk_write_block(i,blockbuf);
 	//make root directory
 	free(blockbuf);
-	blockbuf=malloc(sizeof(blockbuf->directory));
+	blockbuf=malloc(sizeof(* blockbuf));
 	if(debug){
 		puts("mallocing ");
 		printf("%ld",sizeof(blockbuf->directory));
 		puts(" bytes for blockbuf\n");
 	}
+	bzero(blockbuf,sizeof(*blockbuf));
 	vdisk_read_block(ROOT_DIRECTORY_BLOCK,blockbuf);
 
 	oufs_clean_directory_block(1,1,blockbuf);

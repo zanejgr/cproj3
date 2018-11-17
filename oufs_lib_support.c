@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#define debug 1
+#define debug 0
 #include "oufs_lib.h"
 
 
@@ -214,19 +214,11 @@ int oufs_find_open_bit(unsigned char value){
 puts("not yet implemented");
 	return 1;
 }
-int oufs_mkdir(char*cwd,char*path){
-	puts("not yet implemented");
-	return 1;
-}
 int oufs_rmdir(char*cwd,char*path){
 	puts("not yet implemented");
 	return 1;
 }
 int oufs_list(char* cwd, char *path){
-	puts("not yet implemented");
-	return 1;
-}
-int oufs_find_file(char *cwd,char *path, INODE_REFERENCE *PARENT, INODE_REFERENCE *child, char *local_name){
 	puts("not yet implemented");
 	return 1;
 }
