@@ -17,6 +17,28 @@
  *         -x if an error
  *
  */
+#include "vdisk.h"
+#include "oufs.h"
+#include "oufs_lib.h"
+#define debug 0
+
+
+/******************
+ * END zane CODE***
+ * BEGIN prof CODE*
+ * ***************/
+
+INODE_REFERENCE  oufs_find_directory_element(INODE* inode, char*directory_name){
+	puts("Not yet implemented");
+	return 1;
+}
+
+INODE_REFERENCE oufs_allocate_new_directory(INODE_REFERENCE parent){
+	puts("Not yet implemented");
+	return 1;
+}
+
+
 int oufs_find_file(char *cwd, char * path, INODE_REFERENCE *parent, INODE_REFERENCE *child, char *local_name)
 {
   INODE_REFERENCE grandparent;
@@ -225,3 +247,4 @@ int oufs_mkdir(char *cwd, char *path)
   // Should not get to this point
   return(-100);
 }
+
