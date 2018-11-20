@@ -2,7 +2,7 @@
 
 # Set NEWDIR to the directory where your executables are
 # NEWDIR=.
-NEWDIR=/projects/3
+NEWDIR=/home/zanej/cproj3
 
 export PATH=$PATH:$NEWDIR
 
