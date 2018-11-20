@@ -76,7 +76,7 @@ int main(int argc,char**argv){
 	bzero(blockbuf,sizeof(*blockbuf));
 	vdisk_read_block(ROOT_DIRECTORY_BLOCK,blockbuf);
 
-	oufs_clean_directory_block(1,1,blockbuf);
+	oufs_clean_directory_block(0,0,blockbuf);
 	vdisk_write_block(ROOT_DIRECTORY_BLOCK,blockbuf);
 	//save changes
 	vdisk_disk_close();
