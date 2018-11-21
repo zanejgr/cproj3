@@ -10,7 +10,7 @@ clean: erase all
 	-rm *.o
 deps: $(dep_objs)
 
-secret: debug deps zmkdir zrmdir zformat zinspect zfilez
+secret: debug deps ztouch zcreate zappend zmore zremove zlink zmkdir zrmdir zformat zinspect zfilez
 debug: 
 	$(shell sed -i 's/define debug 0/define debug 1/' *.c *.h)
 rebug: 

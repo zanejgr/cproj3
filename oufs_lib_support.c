@@ -211,15 +211,29 @@ int oufs_write_inode_by_reference(INODE_REFERENCE i, INODE *inode)
 
 
 int oufs_find_open_bit(unsigned char value){
-puts("not yet implemented");
-	return 1;
-}
-int oufs_rmdir(char*cwd,char*path){
-	puts("not yet implemented");
-	return 1;
-}
-int oufs_list(char* cwd, char *path){
-	puts("not yet implemented");
-	return 1;
+	for(int i = 0; i < 8; i++){
+		if((1u<<i)&~value){
+			if(debug){
+				printf("%d",i);
+				puts(" is open \n");
+			}
+			return ((1u<<i)&~value);
+		}else{
+			if(debug){
+				printf("%d",i);
+				puts(" isn't open \n");
+			}
+		}
+	}
+	return -1;
 }
 
+int oufs_list(char* cwd, char *path){
+puts("not yet implemented");
+return 1;
+}
+
+int oufs_rmdir(char*cwd, char*path){
+	puts("not yet implemented");
+	return 1;
+}

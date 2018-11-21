@@ -12,7 +12,6 @@ void oufs_get_environment(char *cwd, char *disk_name);
 int oufs_format_disk(char  *virtual_disk_name);
 int oufs_read_inode_by_reference(INODE_REFERENCE i, INODE *inode);
 int oufs_write_inode_by_reference(INODE_REFERENCE i, INODE *inode);
-int oufs_find_file(char *cwd, char * path, INODE_REFERENCE *parent, INODE_REFERENCE *child, char *local_name);
 int oufs_mkdir(char *cwd, char *path);
 int oufs_list(char *cwd, char *path);
 int oufs_rmdir(char *cwd, char *path);
