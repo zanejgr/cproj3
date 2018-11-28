@@ -7,7 +7,7 @@
 
 #include <stdio.h>
 #include <string.h>
-
+#include "oufs_goodies.h"
 #include "oufs_lib.h"
 
 int main(int argc, char** argv) {
