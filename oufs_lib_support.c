@@ -217,7 +217,7 @@ int oufs_find_open_bit(unsigned char value){
 				printf("%d",i);
 				puts(" is open \n");
 			}
-			return ((1u<<i)&~value);
+			return i;
 		}else{
 			if(debug){
 				printf("%d",i);
@@ -229,8 +229,8 @@ int oufs_find_open_bit(unsigned char value){
 }
 
 int oufs_list(char* cwd, char *path){
-puts("not yet implemented");
-return 1;
+	puts("not yet implemented");
+	return 1;
 }
 
 int oufs_rmdir(char*cwd, char*path){
