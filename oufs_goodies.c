@@ -124,7 +124,7 @@ INODE_REFERENCE oufs_allocate_new_directory(INODE_REFERENCE parent){
 		return -1;
 	}
 	vdisk_read_block(blockReferenceBuffer,childblockbuf);
-	oufs_clean_directory_block(parent, blockReferenceBuffer, childblockbuf);
+	oufs_clean_directory_block(blockReferenceBuffer,parent,  childblockbuf);
 	//set up values for the child inode and block
 	inode->size = 0x0002; 
 	inode->type = IT_DIRECTORY;
@@ -142,7 +142,9 @@ INODE_REFERENCE oufs_allocate_new_directory(INODE_REFERENCE parent){
 	oufs_write_inode_by_reference(8*inode_byte+inode_bit,inode);
 	// Write out the updated master block, 
 	vdisk_write_block(MASTER_BLOCK_REFERENCE,masterblockbuf);
-	return inode_bit * inode_byte;
+
+	printf("Block allocated with inode refernce %d \n",8*inode_byte+inode_bit);
+	return inode_bit + inode_byte*8;
 }
 
 
