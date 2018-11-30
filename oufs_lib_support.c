@@ -230,10 +230,48 @@ int oufs_find_open_bit(unsigned char value){
 }
 
 int oufs_list(char* cwd, char *path){
-	puts("not yet implemented");
-	puts(cwd);
-	puts(path);
-	return 1;
+	INODE_REFERENCE* parent;
+	INODE_REFERENCE* child;
+
+	char local_name[FILE_NAME_SIZE] = {0};
+	int ret;
+	//get inode of directory
+	if((ret = oufs_find_file(cwd,path,parent,child,local_name))<-1){
+		if(debug){
+			fputs(stderr,"oufs_list(): cwd=");
+			fputs(stderr,cwd);
+			fputs(stderr,", path =");
+			fputs(stderr,path);
+		}
+		return -1;
+	}
+	//make sure it's a directory
+	INODE inode = oufs_read_inode_by_reference(child);
+	if(inode.type!=IT_DIRECTORY){
+		if(debug) puts(stderr,"non-directory inode in oufs_list");
+		return -1;
+	}
+	//read the directory
+	BLOCK block;
+	if(!vdisk_read_block(inode.data[0],&block)){
+		if(debug)	puts(stderr,"error reading block");
+		return -1;
+	}
+	
+	//iterate across directory;
+	char strbuf[1+FILE_NAME_SIZE] = {0};
+	for(int i = 0; i < DIRECTORY_ENTRIES_PER_BLOCK;i++){
+		//ensure that the directory exists before printing
+		if(block.directory.entry[i].inode_reference != UNALLOCATED_INODE){
+			strncpy(strbuf,block.entry[i].name,FILE_NAME_SIZE);
+			strncat(strbuf,"/\n",FILE_NAME_SIZE-strlen(strbuf)-1);
+			puts(strbuf);
+			for(int j = 0; j < strlen(strbuf); j++)
+				strbuf[i]='\0';
+		}
+	}
+	//success
+	return 0;
 }
 
 int oufs_rmdir(char*cwd, char*path){
