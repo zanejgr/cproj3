@@ -38,10 +38,10 @@ INODE_REFERENCE  oufs_find_directory_element(INODE* inode, char*directory_name){
 			continue;
 		}
 		if(inode->type!=IT_DIRECTORY){
-			puts("Inode not a directory");
+			if(debug)	puts("Inode not a directory");
 			return( -1);
 		}
-		for(int j = 0; j < DIRECTORY_ENTRIES_PER_BLOCK;j++){
+		for(unsigned int j = 0; j < DIRECTORY_ENTRIES_PER_BLOCK;j++){
 			if(debug){	puts("comparing");
 				puts(directory_name);
 				puts("to");
@@ -59,39 +59,37 @@ INODE_REFERENCE  oufs_find_directory_element(INODE* inode, char*directory_name){
 }
 INODE_REFERENCE oufs_allocate_new_directory(INODE_REFERENCE parent){
 	//make buffdrs for the parent and child inodes, as well as a BLOCK buffer
-	BLOCK* childblockbuf = malloc(sizeof *childblockbuf);
-	BLOCK* masterblockbuf = malloc(sizeof *masterblockbuf);
+	BLOCK childblockbuf;
+	BLOCK masterblockbuf;
 	if(debug){
-		puts("mallocing ");
-		printf("%ld",sizeof *childblockbuf);
+		printf("%ld",sizeof childblockbuf);
 		puts(" bytes for blockbuf and");
-		printf("%ld",sizeof *masterblockbuf);
+		printf("%ld",sizeof masterblockbuf);
 		puts(" bytes for master block\n");
 	}
 
-	INODE* inode = malloc(sizeof( *inode));
+	INODE inode;
 	//null-terminate
 	
-	bzero(inode->data,(sizeof inode)*(BLOCKS_PER_INODE));
-	bzero(childblockbuf,sizeof(*childblockbuf));
-	bzero(masterblockbuf,sizeof(*masterblockbuf));
+	bzero(inode.data,(sizeof inode)*(BLOCKS_PER_INODE));
+	bzero(&childblockbuf,sizeof(childblockbuf));
+	bzero(&masterblockbuf,sizeof(masterblockbuf));
 	if(debug){
-		puts("mallocing ");
-		printf("%ld",sizeof(inode->data));
+		printf("%ld",sizeof(inode.data));
 		puts("for inode");
 	}
 
 	//read in the parent inode, parent block and master bloock
-	vdisk_read_block(MASTER_BLOCK_REFERENCE,masterblockbuf);
+	vdisk_read_block(MASTER_BLOCK_REFERENCE,&masterblockbuf);
 	
 	// Scan for an available block
 	//find space for the child inode
-	int inode_byte;
+	unsigned int inode_byte;
 	int flag;
 
 	// Loop over each byte in the inode allocation table.
 	for(inode_byte = 0, flag = 1; flag && inode_byte < N_INODE_BLOCKS/8; ++inode_byte) {
-		if(masterblockbuf->master.inode_allocated_flag[inode_byte] != 0xff) { 
+		if(masterblockbuf.master.inode_allocated_flag[inode_byte] != 0xff) { 
 
 			// Found a byte that has an opening: stop scanning
 			flag = 0;
@@ -109,10 +107,10 @@ INODE_REFERENCE oufs_allocate_new_directory(INODE_REFERENCE parent){
 	// Found an available inode 
 	// Set the inode allocated bit
 	// Find the FIRST bit in the byte that is 0 (we scan in bit order: 0 ... 7)
-	int inode_bit = oufs_find_open_bit(masterblockbuf->master.inode_allocated_flag[inode_byte]);
+	unsigned int inode_bit = oufs_find_open_bit(masterblockbuf.master.inode_allocated_flag[inode_byte]);
 
 	// Now set the bit in the allocation table
-	masterblockbuf->master.inode_allocated_flag[inode_byte] |= (1 << inode_bit);
+	masterblockbuf.master.inode_allocated_flag[inode_byte] |= (1 << inode_bit);
 
 	if(debug)
 		fprintf(stderr, "Allocating inode=%d (%d)\n", inode_byte, inode_bit);
@@ -123,27 +121,26 @@ INODE_REFERENCE oufs_allocate_new_directory(INODE_REFERENCE parent){
 		if(debug) puts("no block available to make direCTOry");
 		return -1;
 	}
-	vdisk_read_block(blockReferenceBuffer,childblockbuf);
-	oufs_clean_directory_block(blockReferenceBuffer,parent,  childblockbuf);
+	vdisk_read_block(blockReferenceBuffer,&childblockbuf);
+	oufs_clean_directory_block(parent,inode_bit+inode_byte * 8,&childblockbuf);
 	//set up values for the child inode and block
-	inode->size = 0x0002; 
-	inode->type = IT_DIRECTORY;
-	inode->n_references = 1;
-	inode->data[0] = blockReferenceBuffer;
-
+	inode.size = 2;
+	inode.type = IT_DIRECTORY;
+	inode.n_references = 1;
+	inode.data[0] = blockReferenceBuffer;
 
 	//write child block
-	if(!vdisk_write_block(blockReferenceBuffer, childblockbuf)&&debug){
+	if(0!=vdisk_write_block(blockReferenceBuffer, &childblockbuf)&&debug){
 		puts("couldn't write block");
-		return - 1;
+		return UNALLOCATED_INODE;
 	}
 
 	//write child inode
-	oufs_write_inode_by_reference(8*inode_byte+inode_bit,inode);
+	oufs_write_inode_by_reference(inode_bit+inode_byte*8,&inode);
 	// Write out the updated master block, 
-	vdisk_write_block(MASTER_BLOCK_REFERENCE,masterblockbuf);
+	vdisk_write_block(MASTER_BLOCK_REFERENCE,&masterblockbuf);
 
-	printf("Block allocated with inode refernce %d \n",8*inode_byte+inode_bit);
+	if(debug) printf("Inode with inode refernce %d \n",inode_bit+inode_byte*8);
 	return inode_bit + inode_byte*8;
 }
 
@@ -306,7 +303,7 @@ int oufs_mkdir(char *cwd, char *path)
 				return(-6);
 			}
 			// Find a hole in the directory entry list
-			for(int i = 0; i < DIRECTORY_ENTRIES_PER_BLOCK; ++i) {
+			for(unsigned int i = 0; i < DIRECTORY_ENTRIES_PER_BLOCK; ++i) {
 				if(block.directory.entry[i].inode_reference == UNALLOCATED_INODE) {
 					// Found the hole: use this one
 					if(debug)

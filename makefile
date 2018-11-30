@@ -7,13 +7,12 @@ all: rebug raw
 secret: debug raw 
 
 clean: erase all
-
+	-rm *.o
 	
 raw:	deps ztouch zcreate zappend  zmore zremove zlink zmkdir zrmdir zformat zinspect zfilez
 
 erase:
 	$(shell ls -1 | grep -Ev '^(.*\.[hc]|README\.?[[:alnum:]]*|makefile)$$' -|xargs rm -r)
-	-rm *.o
 debug: 
 	$(shell sed -i 's/define debug 0/define debug 1/' *.c *.h)
 rebug: 
