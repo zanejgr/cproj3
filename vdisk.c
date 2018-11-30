@@ -41,7 +41,7 @@ int vdisk_disk_open(char *virtual_disk_name)
   // Remember the fd in the global variable
   vdisk_fd = fd;
   return(0);
-};
+}
 
 /**
  * Close the virtual disk

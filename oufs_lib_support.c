@@ -66,7 +66,7 @@ void oufs_clean_directory_block(INODE_REFERENCE self, INODE_REFERENCE parent, BL
 	oufs_clean_directory_entry(&entry);
 
 	// Copy empty directory entries across the entire directory list
-	for(int i = 0; i < DIRECTORY_ENTRIES_PER_BLOCK; ++i) {
+	for(unsigned int i = 0; i < DIRECTORY_ENTRIES_PER_BLOCK; ++i) {
 		block->directory.entry[i] = entry;
 	}
 
@@ -200,9 +200,10 @@ int oufs_write_inode_by_reference(INODE_REFERENCE i, INODE *inode)
 	int element = (i % INODES_PER_BLOCK);
 
 	BLOCK b;
-	if(vdisk_write_block(block, &b) == 0) {
+	if(vdisk_read_block(block, &b) == 0) {
 		// Successfully loaded the block: copy just this inode
 		b.inodes.inode[element] = *inode;
+		vdisk_write_block(block, &b);
 		return(0);
 	}
 	// Error case
@@ -230,10 +231,14 @@ int oufs_find_open_bit(unsigned char value){
 
 int oufs_list(char* cwd, char *path){
 	puts("not yet implemented");
+	puts(cwd);
+	puts(path);
 	return 1;
 }
 
 int oufs_rmdir(char*cwd, char*path){
+	puts(cwd);
+	puts(path);
 	puts("not yet implemented");
 	return 1;
 }

@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <strings.h>
 #define debug 0
-int main(int argc,char**argv){
+int main(){
 	// Get the key environment variables
 	char cwd[MAX_PATH_LENGTH];
 	char disk_name[MAX_PATH_LENGTH];
@@ -75,10 +75,12 @@ int main(int argc,char**argv){
 	}
 	bzero(blockbuf,sizeof(*blockbuf));
 	vdisk_read_block(ROOT_DIRECTORY_BLOCK,blockbuf);
-
+	
 	oufs_clean_directory_block(0,0,blockbuf);
 	vdisk_write_block(ROOT_DIRECTORY_BLOCK,blockbuf);
 	//save changes
+	free(blockbuf);
+	free(inode);
 	vdisk_disk_close();
 
 }
